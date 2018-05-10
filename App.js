@@ -3,15 +3,23 @@ import { StyleSheet, Text, View, StatusBar, Dimensions, Platform } from 'react-n
 import { getHeapSpaceStatistics } from 'v8';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import ToDo from './ToDo';
+import {AppLoading} from "expo";
 
 const {height, width} = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
-    newToDo : ""
+    newToDo : "",
+    loadedToDos : false
   };
+  componentDidMount = () => {
+    this._loadToDos();
+  }
   render() {
-    const { newToDo } = this.state;
+    const { newToDo, loadedToDos } = this.state;
+    if(!loadedToDos){
+      return <AppLoading/>
+    }
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content"/>
@@ -35,6 +43,9 @@ export default class App extends React.Component {
     this.setState({
       newToDo : text
     });
+  }
+  _loadToDos = () => {
+    
   }
 }
 

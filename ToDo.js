@@ -23,8 +23,8 @@ class ToDo extends Component{
                     {isEditing ? (
                         <TextInput value={toDoValue} 
                         style={[
-                        styles.input,
                         styles.text, 
+                        styles.input,
                         isCompleted ? styles.completedText : styles.uncompletedText
                         ]} 
                         multiline={true}
@@ -84,7 +84,7 @@ class ToDo extends Component{
         this.setState({
             toDoValue:text
         })
-    }
+    }   
 }
 
 const styles = StyleSheet.create({
