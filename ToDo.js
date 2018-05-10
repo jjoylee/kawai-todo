@@ -1,5 +1,5 @@
 import React, {Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
 import { POINT_CONVERSION_HYBRID } from "constants";
 
 const {width, height} = Dimensions.get("window");
@@ -7,9 +7,11 @@ const {width, height} = Dimensions.get("window");
 class ToDo extends Component{
     state = {
         isEditing:false,
-        isCompleted:false
+        isCompleted:false,
+        toDoValue : ""
     }
     render(){
+        const { text } = this.props;
         const {isCompleted, isEditing} = this.state;
         return (
             <View style={styles.container}>
@@ -18,10 +20,23 @@ class ToDo extends Component{
                         <View style={[styles.circle, 
                             isCompleted? styles.completeCircle : styles.uncompletedCircle]}/>
                     </TouchableOpacity>
-                    <Text style={[styles.text, isCompleted ? 
-                        styles.completedText : styles.uncompletedText]}> 
-                        Hello I'm a todo list 
-                    </Text>
+                    {isEditing ? (
+                        <TextInput value={toDoValue} 
+                        style={[
+                        styles.input,
+                        styles.text, 
+                        isCompleted ? styles.completedText : styles.uncompletedText
+                        ]} 
+                        multiline={true}
+                        onChangeText={this._controlInput} 
+                        returnKeyType={"done"}
+                        onBlur={this._finishEditing}/>
+                    ):(
+                        <Text style={[styles.text, isCompleted ? 
+                            styles.completedText : styles.uncompletedText]}> 
+                            {text} 
+                        </Text>
+                    )}
                 </View>
                 {isEditing ? (
                     <View style={styles.actions}>
@@ -57,14 +72,18 @@ class ToDo extends Component{
         });
     }
     _startEditing = () => {
-        this.setState({
-            isEditing : true
-        });
+        const { text } = this.props;
+        this.setState({ isEditing : true, toDoValue : text });
     }
     _finishEditing = () => {
         this.setState({
             isEditing : false
         });
+    }
+    _controlInput = () => {
+        this.setState({
+            toDoValue:text
+        })
     }
 }
 
@@ -114,5 +133,9 @@ const styles = StyleSheet.create({
     actionContainer : {
         marginVertical : 10,
         marginHorizontal : 10
+    },
+    input:{
+        marginVertical : 15,
+        width:width/2
     }
 });
