@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, ScrollView ,StyleSheet, Text, View, StatusBar, Dimensions, Platform } from 'react-native';
 import ToDo from './ToDo';
 import {AppLoading} from "expo";
-
+import uuidv1 from "uuid/v1";
 const {height, width} = Dimensions.get("window");
 
 export default class App extends React.Component {
@@ -30,7 +30,8 @@ export default class App extends React.Component {
            onChangeText={this._controlNewToDo} 
            placeholderTextColor={"#999"}
            returnKeyType={"done"}
-           autoCorrect={false}/>
+           autoCorrect={false}
+           onSubmitEditing={this._addToDo}/>
            <ScrollView contentContainerStyle={styles.toDos}>
             <ToDo text={"Hello i'm a to do "}/>
           </ScrollView>
@@ -48,6 +49,31 @@ export default class App extends React.Component {
       loadedToDos : true
     });
   }
+  _addToDo = () => {
+    const {newToDo} = this.state;
+    if(newToDo !== ""){
+      this.setState(prevState => {
+        const ID = uuidv1();
+        const newToDoObject = {
+          [ID] : {
+            id : ID,
+            isCompleted : false,
+            text : newToDo,
+            createdAt : Date.now()
+          }
+        };
+        const newState = {
+          ...prevState,
+          newToDo:"",
+          toDos : {
+            ...prevState.toDos,
+            ...newToDoObject
+          }
+        }
+        return { ...newState};
+      });
+    }
+  };
 }
 
 const styles = StyleSheet.create({
