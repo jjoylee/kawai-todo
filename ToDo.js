@@ -1,10 +1,8 @@
 import React, {Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
-import { POINT_CONVERSION_HYBRID } from "constants";
-
 const {width, height} = Dimensions.get("window");
 
-class ToDo extends Component{
+export default class ToDo extends Component{
     state = {
         isEditing:false,
         isCompleted:false,
@@ -12,7 +10,7 @@ class ToDo extends Component{
     }
     render(){
         const { text } = this.props;
-        const {isCompleted, isEditing} = this.state;
+        const {isCompleted, isEditing, toDoValue} = this.state;
         return (
             <View style={styles.container}>
                 <View style={styles.column}>
@@ -21,7 +19,8 @@ class ToDo extends Component{
                             isCompleted? styles.completeCircle : styles.uncompletedCircle]}/>
                     </TouchableOpacity>
                     {isEditing ? (
-                        <TextInput value={toDoValue} 
+                        <TextInput 
+                        value={toDoValue} 
                         style={[
                         styles.text, 
                         styles.input,
@@ -32,8 +31,9 @@ class ToDo extends Component{
                         returnKeyType={"done"}
                         onBlur={this._finishEditing}/>
                     ):(
-                        <Text style={[styles.text, isCompleted ? 
-                            styles.completedText : styles.uncompletedText]}> 
+                        <Text style={[
+                            styles.text, 
+                            isCompleted ? styles.completedText : styles.uncompletedText]}> 
                             {text} 
                         </Text>
                     )}
@@ -60,10 +60,9 @@ class ToDo extends Component{
                         </TouchableOpacity> 
                     </View>
                     )}
-                )}
-            </View>
-        );
-    }
+                </View>
+            );
+        }
     _toggleComplete = () => {
         this.setState(prevState => {
             return {
@@ -80,9 +79,9 @@ class ToDo extends Component{
             isEditing : false
         });
     }
-    _controlInput = () => {
+    _controlInput = text => {
         this.setState({
-            toDoValue:text
+            toDoValue : text
         })
     }   
 }

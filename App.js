@@ -1,7 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Dimensions, Platform } from 'react-native';
-import { getHeapSpaceStatistics } from 'v8';
-import { TextInput, ScrollView } from 'react-native-gesture-handler';
+import { TextInput, ScrollView ,StyleSheet, Text, View, StatusBar, Dimensions, Platform } from 'react-native';
 import ToDo from './ToDo';
 import {AppLoading} from "expo";
 
@@ -18,22 +16,23 @@ export default class App extends React.Component {
   render() {
     const { newToDo, loadedToDos } = this.state;
     if(!loadedToDos){
-      return <AppLoading/>
+      return <AppLoading/>;
     }
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content"/>
+        <StatusBar barStyle={"light-content"}/>
         <Text style={styles.title}>Kawai To Do</Text>
         <View style={styles.card}>
-          <TextInput style={styles.input}
+          <TextInput
+           style={styles.input}
            placeholder={"New To Do"} 
-           onChangeText={this._controlNewToDo} 
            value={newToDo}
+           onChangeText={this._controlNewToDo} 
            placeholderTextColor={"#999"}
            returnKeyType={"done"}
            autoCorrect={false}/>
            <ScrollView contentContainerStyle={styles.toDos}>
-             <ToDo text={"Hello i'm a to do "}/>
+            <ToDo text={"Hello i'm a to do "}/>
           </ScrollView>
         </View>
       </View>
@@ -45,7 +44,9 @@ export default class App extends React.Component {
     });
   }
   _loadToDos = () => {
-    
+    this.setState({
+      loadedToDos : true
+    });
   }
 }
 
@@ -90,6 +91,6 @@ const styles = StyleSheet.create({
     fontSize : 25
   },
   toDos : {
-    alignItems:center
+    alignItems:'center'
   }
 });
