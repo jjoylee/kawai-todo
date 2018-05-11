@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, ScrollView ,StyleSheet, Text, View, StatusBar, Dimensions, Platform } from 'react-native';
+import { AsyncStorage, TextInput, ScrollView ,StyleSheet, Text, View, StatusBar, Dimensions, Platform } from 'react-native';
 import ToDo from './ToDo';
 import {AppLoading} from "expo";
 import uuidv1 from "uuid/v1";
@@ -16,7 +16,6 @@ export default class App extends React.Component {
   }
   render() {
     const { newToDo, loadedToDos, toDos } = this.state;
-    console.log(toDos);
     if(!loadedToDos){
       return <AppLoading/>;
     }
@@ -77,6 +76,7 @@ export default class App extends React.Component {
             ...newToDoObject
           }
         }
+        this._saveToDos(newState.toDos);
         return { ...newState};
       });
     }
@@ -89,6 +89,7 @@ export default class App extends React.Component {
         ...prevState,
         ...toDos
       };
+      this._saveToDos(newState.toDos);
       return {...newState};
     });
   }
@@ -104,6 +105,7 @@ export default class App extends React.Component {
           }
         }
       };
+      this._saveToDos(newState.toDos);
       return {...newState};
     });
   }
@@ -119,6 +121,7 @@ export default class App extends React.Component {
           }
         }
       };
+      this._saveToDos(newState.toDos);
       return {...newState};
     });
   }
@@ -134,11 +137,15 @@ export default class App extends React.Component {
           }
         }
       };
+      this._saveToDos(newState.toDos);
       return {...newState};
     });
   }
+  _saveToDos = (newToDos) => {
+    console.log(JSON.stringify(newToDos));
+    const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
+  }
 }
-
 
 const styles = StyleSheet.create({
   container: {
