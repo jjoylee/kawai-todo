@@ -40,7 +40,8 @@ export default class ToDo extends Component{
                         multiline={true}
                         onChangeText={this._controlInput} 
                         returnKeyType={"done"}
-                        onBlur={this._finishEditing}/>
+                        onBlur={this._finishEditing}
+                        underlineColorAndroid={"transparent"}/>
                     ):(
                         <Text style={[
                             styles.text, 
